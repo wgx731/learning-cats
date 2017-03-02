@@ -10,6 +10,25 @@ object Main extends App {
   println(s"1 === 1: ${1 === 1}")
   // 1 === "foo"
 
+  /* TrafficLight Type */
+  sealed trait TrafficLight
+  object TrafficLight {
+    def red: TrafficLight = Red
+    def yellow: TrafficLight = Yellow
+    def green: TrafficLight = Green
+    case object Red extends TrafficLight
+    case object Yellow extends TrafficLight
+    case object Green extends TrafficLight
+  }
+
+  implicit val trafficLightEq: Eq[TrafficLight] =
+    new Eq[TrafficLight] {
+      def eqv(a1: TrafficLight, a2: TrafficLight): Boolean = a1 == a2
+  }
+
+  println(s"TrafficLight.red === TrafficLight.yellow: ${TrafficLight.red === TrafficLight.yellow}")
+
+
   /* Order - https://github.com/typelevel/cats/blob/master/kernel/src/main/scala/cats/kernel/Order.scala */
   // 1 compare 2.0
   println(s"1.0 max 2.0: ${1.0 max 2.0}")
@@ -41,25 +60,5 @@ object Main extends App {
   /* Enum - no equivalent */
 
   /* Numeric - no equivalent */
-
-  /* TrafficLight Type */
-  sealed trait TrafficLight
-  object TrafficLight {
-    def red: TrafficLight = Red
-    def yellow: TrafficLight = Yellow
-    def green: TrafficLight = Green
-    case object Red extends TrafficLight
-    case object Yellow extends TrafficLight
-    case object Green extends TrafficLight
-  }
-
-  implicit val trafficLightEq: Eq[TrafficLight] =
-    new Eq[TrafficLight] {
-      def eqv(a1: TrafficLight, a2: TrafficLight): Boolean = a1 == a2
-  }
-
-  // Below works in console but not here, seems wildcard import magic stopped working ! :(
-  // TrafficLight.red === TrafficLight.yellow
-  // 1 === 1
 
 }
