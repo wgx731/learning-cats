@@ -38,6 +38,37 @@ object Main extends App {
 
   println(s"1 |+| 2: ${{1 |+| 2}.truthy}")
 
+  // List of Int -> List of Int
   println(s"""Functor[List].map(List(1, 2, 3)) { _ + 1 }: ${Functor[List].map(List(1, 2, 3)) { _ + 1 }}""")
 
+  // List of Int -> List of String
+  println(s"""Functor[List].map(List(1, 2, 3)) { _ + "|" }: ${Functor[List].map(List(1, 2, 3)) { _ + "|" }}""")
+
+  import cats.syntax.functor._
+
+  println(s"""(Right(1): Either[String, Int]) map { _ + 1 }: ${(Right(2): Either[String, Int]) map { _ + 1 }}""")
+
+  println(s"""(Left("boom!"): Either[String, Int]) map { _ + 1 }: ${(Left("boom!"): Either[String, Int]) map { _ + 1 }}""")
+
+  // Function as functor
+  val h = ((x: Int) => x + 1) map {_ * 7}
+
+  println(s"h(3): ${h(3)}")
+
+  // lifting a function
+  val lifted = Functor[List].lift {(_: Int) * 2}
+
+  println(s"lifted(List(1,2,3)): ${lifted(List(1,2,3))}")
+
+  // functor law
+  import cats.syntax.eq._
+  val x: Either[String, Int] = Right(1)
+
+  assert { (x map identity) === x }
+
+  val f = {(_: Int) * 3}
+
+  val g = {(_: Int) + 1}
+
+  assert { (x map (f map g)) === (x map f map g) }
 }
