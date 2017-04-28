@@ -37,21 +37,20 @@ case object Feather extends Relic {}
 case object Stone extends Relic {}
 case object Flower extends Relic {}
 
-val isoFamilyRelic = new (Family <=> Relic) {
-  val to: Family => Relic = {
-    case Mother => Feather
-    case Father => Stone
-    case Child  => Flower
-  }
-  val from: Relic => Family = {
-    case Feather => Mother
-    case Stone   => Father
-    case Flower  => Child
-  }
-}
-
-
 object Main extends App {
+
+  val isoFamilyRelic = new (Family <=> Relic) {
+    val to: Family => Relic = {
+      case Mother => Feather
+      case Father => Stone
+      case Child  => Flower
+    }
+    val from: Relic => Family = {
+      case Feather => Mother
+      case Stone   => Father
+      case Flower  => Child
+    }
+  }
 
   val a: Set[Person] = Set[Person](John, Mary, Sam)
 
